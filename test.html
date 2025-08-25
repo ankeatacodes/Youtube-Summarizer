@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Summarizer Extension Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .test-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        
+        .status.warning {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            color: white;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+        
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎥 YouTube Summarizer Extension Test</h1>
+        
+        <div class="test-section">
+            <h2 class="test-title">📡 Backend API Tests</h2>
+            
+            <div class="test-item">
+                <strong>Health Check:</strong>
+                <button class="btn" onclick="testHealthCheck()">Test Health</button>
+                <div id="health-result" class="result"></div>
+            </div>
+            
+            <div class="test-item">
+                <strong>Models Status:</strong>
+                <button class="btn" onclick="testModelsStatus()">Test Models</button>
+                <div id="models-result" class="result"></div>
+            </div>
+            
+            <div class="test-item">
+                <strong>Video Processing (Mock):</strong>
+                <button class="btn" onclick="testVideoProcessing()">Test Processing</button>
+                <div id="processing-result" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">🧩 Chrome Extension Tests</h2>
+            
+            <div class="test-item">
+                <strong>Extension Detection:</strong>
+                <span id="extension-status" class="status warning">Checking...</span>
+                <div id="extension-result" class="result"></div>
+            </div>
+            
+            <div class="test-item">
+                <strong>YouTube Integration Test:</strong>
+                <button class="btn" onclick="testYouTubeIntegration()">Simulate YouTube</button>
+                <div id="youtube-result" class="result"></div>
+            </div>
+            
+            <div class="test-item">
+                <strong>Storage Test:</strong>
+                <button class="btn" onclick="testStorage()">Test Storage</button>
+                <div id="storage-result" class="result"></div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">📋 Installation Instructions</h2>
+            
+            <div class="test-item">
+                <strong>1. Backend Setup:</strong>
+                <div class="code">
+                    cd backend<br>
+                    python test_server.py
+                </div>
+                <span class="status success">✅ RUNNING</span>
+            </div>
+            
+            <div class="test-item">
+                <strong>2. Chrome Extension:</strong>
+                <div class="code">
+                    1. Open chrome://extensions/<br>
+                    2. Enable "Developer mode"<br>
+                    3. Click "Load unpacked"<br>
+                    4. Select chrome-extension folder
+                </div>
+                <span id="extension-install-status" class="status warning">⚠️ MANUAL STEP</span>
+            </div>
+            
+            <div class="test-item">
+                <strong>3. Test on YouTube:</strong>
+                <div class="code">
+                    1. Go to any YouTube video<br>
+                    2. Look for floating "Summarize" button<br>
+                    3. Click extension icon in toolbar<br>
+                    4. Test summarization features
+                </div>
+                <button class="btn" onclick="openYouTube()">Open YouTube</button>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">🔧 Debug Information</h2>
+            <div id="debug-info" class="code">
+                Loading debug information...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test functions
+        async function testHealthCheck() {
+            const resultDiv = document.getElementById('health-result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                const data = await response.json();
+                resultDiv.innerHTML = `<span class="status success">✅ SUCCESS</span><br>${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="status error">❌ FAILED</span><br>${error.message}`;
+            }
+        }
+        
+        async function testModelsStatus() {
+            const resultDiv = document.getElementById('models-result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/models/status');
+                const data = await response.json();
+                resultDiv.innerHTML = `<span class="status success">✅ SUCCESS</span><br>${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="status error">❌ FAILED</span><br>${error.message}`;
+            }
+        }
+        
+        async function testVideoProcessing() {
+            const resultDiv = document.getElementById('processing-result');
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/process-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                        action: 'summarize',
+                        videoId: 'dQw4w9WgXcQ'
+                    })
+                });
+                const data = await response.json();
+                resultDiv.innerHTML = `<span class="status success">✅ SUCCESS</span><br>${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="status error">❌ FAILED</span><br>${error.message}`;
+            }
+        }
+        
+        function testYouTubeIntegration() {
+            const resultDiv = document.getElementById('youtube-result');
+            
+            // Simulate YouTube video data
+            const videoData = {
+                url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                videoId: 'dQw4w9WgXcQ',
+                title: 'Test Video - Never Gonna Give You Up',
+                duration: '3:32',
+                channelName: 'Test Channel'
+            };
+            
+            resultDiv.innerHTML = `<span class="status success">✅ SIMULATED</span><br>Mock YouTube video data:<br>${JSON.stringify(videoData, null, 2)}`;
+        }
+        
+        function testStorage() {
+            const resultDiv = document.getElementById('storage-result');
+            
+            try {
+                // Test localStorage (simulating Chrome extension storage)
+                const testData = {
+                    summary_test: {
+                        result: 'Test summary data',
+                        timestamp: Date.now(),
+                        videoTitle: 'Test Video'
+                    }
+                };
+                
+                localStorage.setItem('youtube_summarizer_test', JSON.stringify(testData));
+                const retrieved = localStorage.getItem('youtube_summarizer_test');
+                
+                resultDiv.innerHTML = `<span class="status success">✅ SUCCESS</span><br>Storage test passed:<br>${retrieved}`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="status error">❌ FAILED</span><br>${error.message}`;
+            }
+        }
+        
+        function openYouTube() {
+            window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+        }
+        
+        // Check for Chrome extension
+        function checkExtension() {
+            const statusSpan = document.getElementById('extension-status');
+            const resultDiv = document.getElementById('extension-result');
+            
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                statusSpan.className = 'status success';
+                statusSpan.textContent = '✅ DETECTED';
+                resultDiv.innerHTML = 'Chrome extension environment detected!';
+            } else {
+                statusSpan.className = 'status warning';
+                statusSpan.textContent = '⚠️ NOT DETECTED';
+                resultDiv.innerHTML = 'Extension not installed or not running on extension page.';
+            }
+        }
+        
+        // Update debug info
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debug-info');
+            const info = {
+                userAgent: navigator.userAgent,
+                currentURL: window.location.href,
+                timestamp: new Date().toISOString(),
+                chromeAvailable: typeof chrome !== 'undefined',
+                localStorageAvailable: typeof localStorage !== 'undefined'
+            };
+            
+            debugDiv.textContent = JSON.stringify(info, null, 2);
+        }
+        
+        // Initialize tests
+        window.onload = function() {
+            checkExtension();
+            updateDebugInfo();
+            
+            // Auto-run basic tests
+            setTimeout(() => {
+                testHealthCheck();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>

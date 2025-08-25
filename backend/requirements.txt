@@ -1,0 +1,25 @@
+# Backend requirements for YouTube Summarizer API
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+python-multipart==0.0.6
+
+# AI/ML dependencies
+google-generativeai==0.3.2
+farm-haystack==1.21.0
+torch==2.1.0
+sentence-transformers==2.2.2
+ctransformers==0.2.27
+llama-cpp-python==0.2.11
+
+# YouTube processing
+pytube==15.0.0
+
+# Audio processing  
+openai-whisper==20231117
+faiss-cpu==1.7.4
+
+# Additional utilities
+python-dotenv==1.0.0
+requests==2.31.0
+aiofiles==23.2.1

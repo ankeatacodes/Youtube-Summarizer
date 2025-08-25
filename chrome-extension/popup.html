@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 400px;
+      height: 600px;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      color: white;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+    
+    .subtitle {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+    
+    .status {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .video-info {
+      margin-bottom: 15px;
+    }
+    
+    .video-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .video-url {
+      font-size: 11px;
+      opacity: 0.7;
+      word-break: break-all;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 6px;
+      padding: 12px 16px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn.primary {
+      background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    }
+    
+    .btn.primary:hover {
+      background: linear-gradient(45deg, #ff5252, #ff7979);
+    }
+    
+    .progress {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      height: 20px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(45deg, #4ecdc4, #44a08d);
+      height: 100%;
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 10px;
+    }
+    
+    .summary-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+      backdrop-filter: blur(10px);
+    }
+    
+    .summary-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    
+    .summary-text {
+      font-size: 12px;
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+    
+    .error {
+      background: rgba(255, 82, 82, 0.2);
+      border: 1px solid rgba(255, 82, 82, 0.3);
+      border-radius: 6px;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+    
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+    }
+    
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .footer {
+      text-align: center;
+      font-size: 10px;
+      opacity: 0.6;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">🎥 YouTube Summarizer</div>
+    <div class="subtitle">AI-powered video analysis</div>
+  </div>
+  
+  <div class="status">
+    <div id="videoInfo" class="video-info hidden">
+      <div class="video-title" id="videoTitle"></div>
+      <div class="video-url" id="videoUrl"></div>
+    </div>
+    
+    <div id="notOnYoutube" class="hidden">
+      <p>Navigate to a YouTube video to get started!</p>
+    </div>
+  </div>
+  
+  <div class="action-buttons">
+    <button id="summarizeBtn" class="btn primary" disabled>
+      📝 Summarize Video
+    </button>
+    <button id="transcribeBtn" class="btn" disabled>
+      🎤 Transcribe Only
+    </button>
+    <button id="settingsBtn" class="btn">
+      ⚙️ Settings
+    </button>
+  </div>
+  
+  <div id="progressContainer" class="hidden">
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+    <div id="progressText" style="text-align: center; font-size: 12px; margin-top: 5px;"></div>
+  </div>
+  
+  <div id="loadingContainer" class="loading hidden">
+    <div class="spinner"></div>
+    <span>Processing video...</span>
+  </div>
+  
+  <div id="errorContainer" class="error hidden">
+    <div id="errorText"></div>
+  </div>
+  
+  <div id="summaryContainer" class="summary-container hidden">
+    <div class="summary-title">📋 Summary</div>
+    <div id="summaryText" class="summary-text"></div>
+  </div>
+  
+  <div class="footer">
+    Powered by Llama 2 🦙 & Whisper AI
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

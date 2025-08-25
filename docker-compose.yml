@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  youtube-summarizer-backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./backend/downloads:/app/downloads
+      - ./backend/llama-2-7b-32k-instruct.Q4_K_S.gguf:/app/llama-2-7b-32k-instruct.Q4_K_S.gguf:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  default:
+    name: youtube-summarizer-network
