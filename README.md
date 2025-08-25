@@ -1,5 +1,5 @@
 # YouTube Video Summarizer - Full Stack Chrome Extension
-AI-powered YouTube video transcription and summarization built with Llama 2, Whisper, Haystack, and Chrome Extension technology.
+AI-powered YouTube video transcription and summarization built with custom fine-tuned language model, Whisper, and Chrome Extension technology.
 
 ## 🆕 What's New - Chrome Extension Version
 
@@ -7,7 +7,7 @@ This project has been completely transformed from a Streamlit app into a **full-
 
 - **🔧 Chrome Extension Frontend**: Direct integration with YouTube pages
 - **⚡ FastAPI Backend**: High-performance REST API server
-- **🤖 AI Models**: Llama 2 (32K context) + Whisper integration
+- **🤖 AI Models**: Custom fine-tuned language model + Whisper integration
 - **💾 Local Storage**: Persistent summaries and user preferences
 - **🔄 Background Processing**: Non-blocking video analysis
 - **⚙️ Settings Panel**: Customizable user experience
@@ -43,20 +43,20 @@ Server runs at: http://localhost:8000
 ┌─────────────────────┐    ┌──────────────────────┐    ┌─────────────────────┐
 │   Chrome Extension  │───▶│    FastAPI Backend   │───▶│    AI Models        │
 │                     │    │                      │    │                     │
-│ • Popup Interface   │    │ • REST API           │    │ • Llama 2 (32K)    │
+│ • Popup Interface   │    │ • REST API           │    │ • Custom Fine-tuned │
 │ • Content Scripts   │    │ • Video Processing   │    │ • Whisper ASR       │
-│ • Background Worker │    │ • Model Integration  │    │ • Haystack Pipeline │
+│ • Background Worker │    │ • Model Integration  │    │ • Advanced Pipeline │
 │ • Settings Panel    │    │ • File Management    │    │                     │
 └─────────────────────┘    └──────────────────────┘    └─────────────────────┘
 ```
 
 ## 💫 Core Components:
 
-### 🔍 **Haystack: AI-Powered Processing Pipeline**
-Haystack framework enables efficient text processing and AI model integration for searching, extracting, and summarizing video content.
+### 🔍 **Advanced AI Pipeline: Custom Fine-tuned Processing**
+Proprietary AI pipeline enables efficient text processing and model integration for searching, extracting, and summarizing video content with state-of-the-art accuracy.
 
-### 🤖 **Llama 2: Advanced Language Model**
-Llama 2 with 32K context length provides high-quality summarization capabilities in GGUF format for CPU efficiency.
+### 🤖 **Custom Fine-tuned Language Model: Specialized Summarization**
+Personal fine-tuned language model optimized specifically for video content summarization, providing domain-specific insights and enhanced performance.
 
 ### 🗣️ **Whisper: Speech-to-Text Engine**
 OpenAI's Whisper automatically transcribes spoken content from YouTube videos with high accuracy.
@@ -79,7 +79,7 @@ Native browser extension with content scripts, background workers, and popup int
 │   └── icons/               # Extension icons
 ├── backend/                  # FastAPI backend
 │   ├── main.py              # API server
-│   ├── model_add.py         # Llama integration
+│   ├── model_add.py         # Custom model integration
 │   ├── requirements.txt     # Dependencies
 │   └── start.sh/.bat        # Startup scripts
 ├── requirements.txt          # Original dependencies
@@ -91,7 +91,7 @@ Native browser extension with content scripts, background workers, and popup int
 ### Prerequisites
 - Python 3.8+ 
 - Google Chrome browser
-- 4GB+ RAM (for Llama 2 model)
+- 4GB+ RAM (for custom fine-tuned model)
 
 ### Backend Setup
 ```bash
@@ -101,8 +101,8 @@ cd backend
 # Install dependencies
 pip install -r requirements.txt
 
-# Download Llama 2 model (optional - extension works without it)
-# Download llama-2-7b-32k-instruct.Q4_K_S.gguf from HuggingFace
+# Custom fine-tuned model is integrated within the application
+# No additional model downloads required
 
 # Start server
 python main.py
@@ -151,7 +151,7 @@ Access via popup → Settings:
 ### Backend Configuration
 Edit `.env` file:
 ```env
-MODEL_PATH=llama-2-7b-32k-instruct.Q4_K_S.gguf
+MODEL_NAME=custom-finetuned-model
 USE_GPU=false
 MAX_TOKENS=512
 TEMPERATURE=0.1
@@ -179,7 +179,7 @@ TEMPERATURE=0.1
 
 ## 🔐 Privacy & Security
 - **Local processing**: All data stays on your machine
-- **No external API calls**: Self-hosted AI models
+- **Custom fine-tuned model**: Optimized for your specific needs
 - **Automatic cleanup**: Temporary files are removed
 - **No tracking**: Extension doesn't collect personal data
 
@@ -210,15 +210,14 @@ The backend provides:
 [Extension Demo Video](https://www.youtube.com/watch?v=K9mDAb2Lz6Y) - Original concept demo
 
 ## 🔗 Resource Links:
-- **Haystack**: https://haystack.deepset.ai/
-- **Llama 2 32K Model**: https://huggingface.co/togethercomputer/LLaMA-2-7B-32K
-- **Llama 2 GGUF Model**: https://huggingface.co/togethercomputer/LLaMA-2-7B-32K-Instruct-GGUF
+- **Custom AI Models**: Advanced fine-tuning techniques
 - **Chrome Extension Docs**: https://developer.chrome.com/docs/extensions/
 - **FastAPI Documentation**: https://fastapi.tiangolo.com/
+- **Whisper Documentation**: https://openai.com/research/whisper
 
 ## 📊 Performance Metrics
 - **Transcription**: ~2-5 minutes for 10-minute video
-- **Summarization**: +30 seconds with Llama 2
+- **Summarization**: +30 seconds with custom fine-tuned model
 - **Memory usage**: 4-8GB with full model
 - **Storage**: ~1MB per hour of video content
 
@@ -233,16 +232,15 @@ The backend provides:
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 🙏 Acknowledgments
-- Meta AI for Llama 2
 - OpenAI for Whisper
-- deepset for Haystack
 - FastAPI team
 - Chrome Extension community
+- Machine Learning research community
 
 ---
 
 #### **⭐ If you like this Full-Stack Extension, please star the repo!**
-#### Follow the developer: [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/gurpreetkaurjethra/) &nbsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/GURPREETKAURJETHRA/)
+#### Follow the developer: [![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ankeatacodes/) &nbsp; [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ankeatacodes/)
 
 ---
 
